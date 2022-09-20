@@ -10,9 +10,9 @@ export const listCategories = async (request, response) => {
 };
 export const listCategoriesDetail = async (request, response) => {
     try {
-        const category = await Category.findById({ _id: request.params.id }).exec();
-        const products = await Product.find();
-        response.status(200).json(category);
+        const category_id = await Category.findOne({ _id: request.params.id }).exec();
+        const products = await Product.find({category_id}).populate("category_id").exec();
+        response.json({category_id,products});
     } catch (error) {
         response.status(400).json(error);
     }
